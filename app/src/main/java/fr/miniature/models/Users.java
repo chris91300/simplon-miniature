@@ -1,0 +1,51 @@
+package fr.miniature.models;
+
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+
+public final class Users {
+    private static Users usersInstance;
+    private Map<String, User> users = new HashMap<>();
+
+
+    public void addNewUser(User user){
+        int id = user.getId();
+        users.put(Integer.toString(id), user);
+    }
+
+    public User getUserByID(String id){
+        User user = users.get(id);
+        if(user == null){
+            throw new Error("itlisateur inconnu");
+        }
+
+        return user;
+    }
+
+    public User getUserForConnexion(String pseudo, String password){
+        Collection<User> usersList = users.values();
+        
+        User userConnected = null;
+
+        for(User user: usersList){
+            if(user.getPseudo().equals(pseudo) && user.isGoodPassword(password)){               
+                userConnected = user;
+                break;
+            }
+        }
+
+        return userConnected;
+
+    }
+
+    public static Users getInstance(){
+        if(usersInstance == null){
+            usersInstance = new Users();
+        }
+
+        return usersInstance;
+    }
+}
