@@ -2,15 +2,19 @@ package fr.miniature.controllers;
 
 import java.io.IOException;
 
+import fr.miniature.models.User;
+import fr.miniature.models.Users;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet(name="Login", urlPatterns={"/inscription", "/connexion"})
 public class LoginController extends HttpServlet {
 
+    Users users = Users.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -18,6 +22,12 @@ public class LoginController extends HttpServlet {
         if(path.equals("/inscription")){
             req.getRequestDispatcher("/inscription.jsp").forward(req, resp);
         }else{
+            HttpSession session = req.getSession(false);
+            if(session != null && session.getAttribute("userID") != null ){                
+                resp.sendRedirect("/feed");
+            }
+            
+
             req.getRequestDispatcher("/connexion.jsp").forward(req, resp);
         }
     }
@@ -45,9 +55,12 @@ public class LoginController extends HttpServlet {
             isValidInput(password)
         ){
             // créer un user
-            Error error = new Error("données valide.");
-            req.setAttribute("error", error);
-            req.getRequestDispatcher("/inscription.jsp").forward(req, resp);
+            // session
+            User user = new User(firstname, lastname, pseudo, password);
+            users.addNewUser(user);
+            addSession(req, user);
+            resp.sendRedirect("/feed");
+            
 
         }else{
             Error error = new Error("données invalides.");
@@ -66,9 +79,17 @@ public class LoginController extends HttpServlet {
             isValidInput(password)
         ){
             // créer un user
-            Error error = new Error("données valide.");
-            req.setAttribute("error", error);
-            req.getRequestDispatcher("/connexion.jsp").forward(req, resp);
+            User user = users.getUserForConnexion(pseudo, password);
+
+            if(user == null){
+                Error error = new Error("utilisateur inconnu.");
+                req.setAttribute("error", error);
+                req.getRequestDispatcher("/connexion.jsp").forward(req, resp);
+               
+            }
+            addSession(req, user);
+            resp.sendRedirect("/feed");
+
 
         }else{
             Error error = new Error("données invalides.");
@@ -82,5 +103,12 @@ public class LoginController extends HttpServlet {
         boolean isValid = (value != null && !value.isBlank() && !value.isEmpty());
         System.out.println(value+" : "+ isValid);
         return isValid;
+    }
+
+    private void addSession(HttpServletRequest req, User user){
+        String key = "userID";
+        String value = Integer.toString(user.getId());
+        HttpSession session = req.getSession(false);
+        session.setAttribute(key, value);
     }
 }
