@@ -18,9 +18,9 @@ public final class Users {
 
     public User getUserByID(String id){
         User user = users.get(id);
-        if(user == null){
-            throw new Error("itlisateur inconnu");
-        }
+       // if(user == null){
+         //   throw new Error("utilisateur inconnu");
+        //}
 
         return user;
     }
