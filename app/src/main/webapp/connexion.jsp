@@ -17,7 +17,7 @@ Error error = (Error) request.getAttribute("error");
 
     <main>
         <h1>CONNEXION</h1>
-        <form method="post" action="/login" class="form">
+        <form method="post" class="form">
 
             <label for="pseudo">votre pseudo</label>
             <input type="text" id="pseudo" name="pseudo" placeholder="votre pseudo"/>
