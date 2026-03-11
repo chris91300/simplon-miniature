@@ -10,7 +10,7 @@ public class User {
     private String lastname;
     private String password;
     private String pseudo;
-    private int id;
+    private String id;
 
     public User(String firstname, String lastname, String pseudo, String password){
         this.firstname = firstname;
@@ -37,7 +37,7 @@ public class User {
         return this.password.equals(hashPassword(mdp));
     }
 
-    public int getId(){
+    public String getId(){
         return  id;
     }
 
@@ -58,8 +58,8 @@ public class User {
     }
 
 
-    private int generateID(){
+    private String generateID(){
         int id = (int) (Math.random() * (1000000 - 1000 + 1) + 1000);
-        return id;
+        return Integer.toString(id);
     }
 }

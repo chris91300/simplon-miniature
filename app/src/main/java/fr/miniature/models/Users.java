@@ -12,8 +12,8 @@ public final class Users {
 
 
     public void addNewUser(User user){
-        int id = user.getId();
-        users.put(Integer.toString(id), user);
+        String id = user.getId();
+        users.put(id, user);
     }
 
     public User getUserByID(String id){
