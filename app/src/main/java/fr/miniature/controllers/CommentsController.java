@@ -1,9 +1,6 @@
 package fr.miniature.controllers;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import fr.miniature.models.Post;
 import fr.miniature.models.Posts;
@@ -16,11 +13,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet("/feed")
-public class FeedController extends HttpServlet {
+@WebServlet("/comments")
+public class CommentsController extends HttpServlet {
+
     private Users users = Users.getInstance();
     private Posts posts = Posts.getInstance();
-
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
@@ -29,21 +27,33 @@ public class FeedController extends HttpServlet {
 
         }
 
+        String postUserID = req.getParameter("postUserID");
+        String postID = req.getParameter("postID");
+
+        if(!isValidParam(postID) && !isValidParam(postUserID)){
+            resp.sendRedirect("/index.html");
+        }
+
         String userID = (String) session.getAttribute("userID");
         User userSession = users.getUserByID(userID);
-        ArrayList<Post> postsList = posts.getPosts();
-        Map<String, User> listOfUser = new HashMap<>();
-        for(Post post: postsList){
-           String userId = post.getUserID();
-           User user = users.getUserByID(userID);
-            listOfUser.put(userId, user);
+        Post post = posts.getPost(postID);
+        User author = users.getUserByID(userID);
+
+        if(userSession == null || post == null || author == null){
+            resp.sendRedirect("/index.html");
         }
-        
+
         req.setAttribute("user", userSession);
-        req.setAttribute("posts",postsList );
-        req.setAttribute("users",listOfUser );
+        req.setAttribute("post",post );
+        req.setAttribute("author",author );
         
-        req.getRequestDispatcher("/feed.jsp").forward(req, resp);
+        req.getRequestDispatcher("/comments.jsp").forward(req, resp);
     }
 
+
+    private boolean isValidParam(String value){
+        boolean isValid = (value != null && !value.isBlank() && !value.isEmpty());
+        System.out.println(value+" : "+ isValid);
+        return isValid;
+    }
 }

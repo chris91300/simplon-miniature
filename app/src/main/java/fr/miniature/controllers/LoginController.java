@@ -107,7 +107,7 @@ public class LoginController extends HttpServlet {
 
     private void addSession(HttpServletRequest req, User user){
         String key = "userID";
-        String value = Integer.toString(user.getId());
+        String value = user.getId();
         HttpSession session = req.getSession(false);
         session.setAttribute(key, value);
     }

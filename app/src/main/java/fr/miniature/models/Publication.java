@@ -15,8 +15,34 @@ abstract class Publication {
         this.createdAt = new Date().getTime();
     }
 
+    
+
     protected String generateID(){
         int id = (int) (Math.random() * (1000000 - 1000 + 1) + 1000);
         return Integer.toString(id);
+    }
+
+
+
+    public String getID() {
+        return id;
+    }
+
+
+
+    public String getUserID() {
+        return userID;
+    }
+
+
+
+    public String getContent() {
+        return content;
+    }
+
+
+
+    public long getCreatedAt() {
+        return createdAt;
     }
 }
