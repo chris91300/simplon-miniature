@@ -1,0 +1,52 @@
+@startuml
+
+left to right direction
+
+together{
+    "Visiteur" as Visiteur
+    "Utilisateur" as Utilisateur
+}
+
+Visiteur -left-|> Utilisateur
+
+
+package Miniature{
+
+    usecase "s'inscrire" as inscription
+    usecase "se connecter" as connexion
+
+    usecase "poster message" as poster
+    usecase "liker message" as liker
+    usecase "ajouter commentaire" as commenter
+
+    package optionnel{
+        usecase "ajouter pièce jointe" as uploader
+        usecase "lien web" as lienWeb
+        usecase "image" as image
+        usecase "vidéo" as vidéo
+        usecase "document" as document
+        usecase "post" as post
+    }
+}
+
+Visiteur --> inscription
+Visiteur --> connexion
+
+Utilisateur ---> liker
+Utilisateur ---> commenter
+Utilisateur ---> poster
+Utilisateur ---> uploader
+
+liker ..> connexion: include
+commenter ..> connexion: include
+poster ..> connexion: include
+uploader ..> connexion: include
+
+
+uploader <|-- lienWeb
+uploader <|-- image
+uploader <|-- vidéo
+uploader <|-- document
+uploader <|-- post
+
+@enduml
