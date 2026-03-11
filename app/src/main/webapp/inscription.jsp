@@ -17,7 +17,7 @@ Error error = (Error) request.getAttribute("error");
 
     <main>
         <h1>INSCRIPTION</h1>
-        <form method="post" action="/login" class="form">
+        <form method="post" class="form">
             <label for="firstname">votre prénom</label>
             <input type="text" id="firstname" name="firstname" placeholder="votre prénom" />
 
