@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import fr.miniature.models.Comment;
+import fr.miniature.models.Comments;
 import fr.miniature.models.Post;
 import fr.miniature.models.Posts;
 import fr.miniature.models.User;
@@ -20,6 +22,7 @@ import jakarta.servlet.http.HttpSession;
 public class FeedController extends HttpServlet {
     private Users users = Users.getInstance();
     private Posts posts = Posts.getInstance();
+    private Comments comments = Comments.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -89,6 +92,17 @@ public class FeedController extends HttpServlet {
         }
 
         
+      /*  Map<String, ArrayList<Comment>> listOfCommentsByPostID = new HashMap<>();
+        for (Post post : newPostsList) {
+            String postID = post.getID();
+            if(!listOfCommentsByPostID.containsKey(postID)){
+                ArrayList<Comment> commentList = comments.getCommmentsFor(postID);
+                listOfCommentsByPostID.put(postID, commentList);
+            }
+            
+        }*/
+
+        //System.out.println("la liste est null? "+listOfCommentsByPostID== null);
 
         Map<String, User> listOfUser = new HashMap<>();
         for (Post post : newPostsList) {
@@ -100,6 +114,7 @@ public class FeedController extends HttpServlet {
         req.setAttribute("user", userSession);
         req.setAttribute("posts", newPostsList);
         req.setAttribute("users", listOfUser);
+        //req.setAttribute("listOfCommentsByPostID", listOfCommentsByPostID);
         req.setAttribute("error", error);
         req.getRequestDispatcher("/feed.jsp").forward(req, resp);
 

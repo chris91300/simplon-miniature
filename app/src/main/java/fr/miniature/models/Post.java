@@ -8,6 +8,7 @@ public class Post extends Publication {
   
     private Boolean isDraft;
     private int like;
+    ArrayList<Comment> comments = new ArrayList<>();
    
     public Post(String userID, String content) {
         super(userID, content);
@@ -15,6 +16,13 @@ public class Post extends Publication {
         this.isDraft = false;
     }
 
+    public void addComment(Comment comment){
+        comments.add(comment);
+    }
+
+    public ArrayList<Comment> getComments(){
+        return comments;
+    }
 
     public void islike(){
         like++;
