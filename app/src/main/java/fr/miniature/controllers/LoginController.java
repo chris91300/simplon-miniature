@@ -25,6 +25,7 @@ public class LoginController extends HttpServlet {
             HttpSession session = req.getSession(false);
             if(session != null && session.getAttribute("userID") != null ){                
                 resp.sendRedirect("/feed");
+                return;
             }
             
 
@@ -60,7 +61,7 @@ public class LoginController extends HttpServlet {
             users.addNewUser(user);
             addSession(req, user);
             resp.sendRedirect("/feed");
-            
+            return;
 
         }else{
             Error error = new Error("données invalides.");
@@ -89,7 +90,7 @@ public class LoginController extends HttpServlet {
             }
             addSession(req, user);
             resp.sendRedirect("/feed");
-
+            return;
 
         }else{
             Error error = new Error("données invalides.");

@@ -26,7 +26,7 @@ public class FeedController extends HttpServlet {
         HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("userID") == null) {
             resp.sendRedirect("/connexion");
-
+            return;
         }
 
         String userID = (String) session.getAttribute("userID");
