@@ -29,6 +29,7 @@ Map<String, User> authors = (Map<String, User>) request.getAttribute("users");
         <form id="create_post" method="post">
             <p><%=user.getPseudo()%></p>
             <textarea name="newPost" placeholder="créer un nouveau post ..."></textarea>
+            <input type="hidden" name="action" value="creerpost">
             <input type="submit" value="envoyer" />
             <%
                 if(error != null){%>
@@ -54,7 +55,12 @@ Map<String, User> authors = (Map<String, User>) request.getAttribute("users");
                     %>
                     <p><%=author.getPseudo()%></p>
                     <p><%=post.getContent()%></p>
-                    <p>❤️<sup><%=post.getLike()%></sup></p>
+                    <form method="post">
+                        <input type="hidden" name="action" value="liker">
+                        <input type="hidden" name="postID" value="<%=post.getID()%>">
+                        <button type="submit">❤️<sup><%=post.getLike()%></sup></button>
+
+                    </form>
                     <a href=<%=href%> title="ajouter un commentaire">
                         commenter
                     </a>
