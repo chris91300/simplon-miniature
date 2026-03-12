@@ -8,17 +8,18 @@ public class Comments {
     private static Comments instance;
     ArrayList<Comment> comments = new ArrayList<>();
 
-public static Comments getInstance(){
-    if(instance == null){
-        instance = new Comments();
+    public static Comments getInstance(){
+        if(instance == null){
+            instance = new Comments();
+        }
+        return instance;
     }
-    return instance;
-}
-public ArrayList<Comment> getComments() {
-    return comments;
-}
-public void addComment(Comment comment){
-comments.add(comment);
-}
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
+    public void addComment(Comment comment){
+    comments.add(comment);
+    System.out.println("commentaire ajouté");
+    }
 }
 
