@@ -37,8 +37,10 @@ public final class Posts {
     }
 
 
-    public void addPost(Post post){
-    posts.add(post);
+    public ArrayList<Post> addPost(Post post){
+        posts.add(post);
+        return getPosts();
+        
     }
 
 

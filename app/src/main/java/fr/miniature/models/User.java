@@ -43,7 +43,7 @@ public class User {
 
 
    private String hashPassword(String password) {
-    System.out.println("on hash le password : "+password);
+    
         MessageDigest digest;
         try {
             digest = MessageDigest.getInstance("SHA-256");
