@@ -24,7 +24,7 @@ public class CommentsController extends HttpServlet {
         HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("userID") == null) {
             resp.sendRedirect("/connexion");
-
+            return;
         }
 
         String postUserID = req.getParameter("postUserID");
@@ -32,6 +32,7 @@ public class CommentsController extends HttpServlet {
 
         if(!isValidParam(postID) && !isValidParam(postUserID)){
             resp.sendRedirect("/index.html");
+            return;
         }
 
         String userID = (String) session.getAttribute("userID");
@@ -41,6 +42,7 @@ public class CommentsController extends HttpServlet {
 
         if(userSession == null || post == null || author == null){
             resp.sendRedirect("/index.html");
+            return;
         }
 
         req.setAttribute("user", userSession);
