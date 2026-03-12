@@ -69,9 +69,11 @@ public class CommentsController extends HttpServlet {
         String postID = null;
         if(action.equals("commenter")){
             postID = req.getParameter("postID");
+            Post post = posts.getPost(postID);
             String commentContent = req.getParameter("commentContent");
             Comment newComment = new Comment(userID, commentContent, postID);
-            comments.addComment(newComment);
+            post.addComment(newComment);
+            //comments.addComment(newComment);
 
             resp.sendRedirect("/feed");
             return;

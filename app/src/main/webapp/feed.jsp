@@ -3,6 +3,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="fr.miniature.models.User"%>
 <%@ page import="fr.miniature.models.Post"%>
+<%@ page import="fr.miniature.models.Comment"%>
 <%@ page import="java.util.Map"%>
 
 <%
@@ -11,6 +12,7 @@ Error error = (Error) request.getAttribute("error");
 User user = (User) request.getAttribute("user");
 ArrayList<Post> posts = (ArrayList<Post>) request.getAttribute("posts");
 Map<String, User> authors = (Map<String, User>) request.getAttribute("users");
+//Map<String, ArrayList<Comment>> listOfCommentsByPostID = (Map<String, ArrayList<Comment>>) request.getAttribute("listOfCommentsByPostID");
 %>
 
 
@@ -50,8 +52,9 @@ Map<String, User> authors = (Map<String, User>) request.getAttribute("users");
                     <%
                         String postUserID = post.getUserID();
                         User author = authors.get(postUserID);
-                        String href = "/comments?postUserID="+post.getUserID()+"&postID="+post.getID();
-                        
+                        String postID = post.getID();
+                        String href = "/comments?postUserID="+post.getUserID()+"&postID="+postID;
+                        ArrayList<Comment> comments = post.getComments();
                     %>
                     <p><%=author.getPseudo()%></p>
                     <p><%=post.getContent()%></p>
@@ -64,6 +67,24 @@ Map<String, User> authors = (Map<String, User>) request.getAttribute("users");
                     <a href=<%=href%> title="ajouter un commentaire">
                         commenter
                     </a>
+
+                    <%
+                        if(comments.size() == 0){%>
+                            <p>aucun commentaire</p>
+                        <%}else{%>
+                            <details>
+                                <summary>voir les commentaires</summary>
+                                <%
+                                for(Comment comment: comments){%>
+                                    <comment>
+                                        <p><%=comment.getContent()%></p>
+                                    </comment>
+                                <%}
+                                %>
+                            </details>
+                        <%}
+                    %>
+                    
                  </article>
                 <%
                 }
