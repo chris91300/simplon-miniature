@@ -7,6 +7,7 @@
 
 <%
 Error error = (Error) request.getAttribute("error");
+
 User user = (User) request.getAttribute("user");
 ArrayList<Post> posts = (ArrayList<Post>) request.getAttribute("posts");
 Map<String, User> authors = (Map<String, User>) request.getAttribute("users");
@@ -28,6 +29,11 @@ Map<String, User> authors = (Map<String, User>) request.getAttribute("users");
             <p><%=user.getPseudo()%></p>
             <textarea name="newPost" placeholder="créer un nouveau post ..."></textarea>
             <input type="submit" value="envoyer" />
+            <%
+                if(error != null){%>
+                    <p class="error"><%=error.getMessage()%></p>
+                <%}
+            %>
         </form>
 
         <%

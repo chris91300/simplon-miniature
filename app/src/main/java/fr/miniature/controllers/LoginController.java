@@ -22,7 +22,7 @@ public class LoginController extends HttpServlet {
         if(path.equals("/inscription")){
             req.getRequestDispatcher("/inscription.jsp").forward(req, resp);
         }else{
-            HttpSession session = req.getSession(false);
+            HttpSession session = req.getSession();
             if(session != null && session.getAttribute("userID") != null ){                
                 resp.sendRedirect("/feed");
                 return;
@@ -101,15 +101,14 @@ public class LoginController extends HttpServlet {
 
 
     private boolean isValidInput(String value){
-        boolean isValid = (value != null && !value.isBlank() && !value.isEmpty());
-        System.out.println(value+" : "+ isValid);
+        boolean isValid = (value != null && !value.isBlank() && !value.isEmpty());       
         return isValid;
     }
 
     private void addSession(HttpServletRequest req, User user){
         String key = "userID";
         String value = user.getId();
-        HttpSession session = req.getSession(false);
+        HttpSession session = req.getSession();
         session.setAttribute(key, value);
     }
 }
