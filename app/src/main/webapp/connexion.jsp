@@ -16,23 +16,26 @@ Error error = (Error) request.getAttribute("error");
 <body>
 
     <main>
-        <h1>CONNEXION</h1>
-        <form method="post" class="form">
+        <section>
+            <h1>CONNEXION</h1>
+            <form method="post" class="form">
 
-            <label for="pseudo">votre pseudo</label>
-            <input type="text" id="pseudo" name="pseudo" placeholder="votre pseudo"/>
+                <label for="pseudo">votre pseudo</label>
+                <input type="text" id="pseudo" name="pseudo" placeholder="votre pseudo"/>
 
-            <label for="password">votre mot de passe</label>
-            <input type="password" id="password" name="password" placeholder="mot de passe" />
-            <input type="hidden" name="action" value="connexion"/>
-            <input type="submit" value="se connecter" />
+                <label for="password">votre mot de passe</label>
+                <input type="password" id="password" name="password" placeholder="mot de passe" />
+                <input type="hidden" name="action" value="connexion"/>
+                <input type="submit" value="se connecter" />
 
-            <%
-                if(error != null){%>
-                    <p class="error"><%=error.getMessage()%></p>
-                <%}
-            %>
-        </form>
+                <%
+                    if(error != null){%>
+                        <p class="error"><%=error.getMessage()%></p>
+                    <%}
+                %>
+            </form>
+            
+        </section>
     </main>
     
 </body>
