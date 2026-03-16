@@ -23,14 +23,17 @@ User author = (User) request.getAttribute("author");
 <body>
     <main>
         <h1>Poster un commentaire</h1>
-        <section>
-
+        <section id="comment_post">
+            <h2>Post</h2>
+            <p><%=post.getContent()%></p>
             <p>poster par <%=author.getFirstname()%></p>
             <form method="post">
                 <input type="hidden" name="action" value="s'abonner"/>
+                <input type="hidden" name="authorID" value="<%=author.getId()%>"/>
                 <input type="submit" value="s'abonner" />
             </form>
         </section>
+        
         <section>
             <form method="post">
                 <textarea name="commentContent" placeholder="votre message ...">
@@ -41,8 +44,6 @@ User author = (User) request.getAttribute("author");
                 <input type="submit" value="envoyer" />
             </form>
         </section>
-        <p>user = <%=user.getFirstname()%></p>
-        <p><%=post.getContent()%></p>
         
     </main>
 </body>

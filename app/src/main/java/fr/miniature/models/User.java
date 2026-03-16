@@ -4,6 +4,7 @@ package fr.miniature.models;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 public class User {
     private String firstname;
@@ -11,6 +12,7 @@ public class User {
     private String password;
     private String pseudo;
     private String id;
+    private ArrayList<User> abonnements;
 
     public User(String firstname, String lastname, String pseudo, String password){
         this.firstname = firstname;
@@ -18,6 +20,7 @@ public class User {
         this.pseudo = pseudo;
         this.password = hashPassword( password);
         this.id = generateID();
+        this.abonnements = new ArrayList<User>();
     }
 
     
@@ -27,6 +30,10 @@ public class User {
 
     public String getLastname(){
         return this.lastname;
+    }
+
+    public String getFullName(){
+        return firstname+" "+lastname;
     }
 
     public String getPseudo(){
@@ -62,4 +69,13 @@ public class User {
         int id = (int) (Math.random() * (1000000 - 1000 + 1) + 1000);
         return Integer.toString(id);
     }
+
+    public void addAbonnement(User author){
+        abonnements.add(author);
+    }
+
+    public ArrayList<User> getAbonnements(){
+        return abonnements;
+    }
+
 }

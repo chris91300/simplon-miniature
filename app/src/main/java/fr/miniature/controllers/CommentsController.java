@@ -41,7 +41,7 @@ public class CommentsController extends HttpServlet {
         String userID = (String) session.getAttribute("userID");
         User userSession = users.getUserByID(userID);
         Post post = posts.getPost(postID);
-        User author = users.getUserByID(userID);
+        User author = users.getUserByID(post.getUserID());
 
         if(userSession == null || post == null || author == null){
             resp.sendRedirect("/index.html");
@@ -69,30 +69,37 @@ public class CommentsController extends HttpServlet {
         String postID = null;
         if(action.equals("commenter")){
             postID = req.getParameter("postID");
-            Post post = posts.getPost(postID);
+            //Post post = posts.getPost(postID);
             String commentContent = req.getParameter("commentContent");
             Comment newComment = new Comment(userID, commentContent, postID);
-            post.addComment(newComment);
-            //comments.addComment(newComment);
+           // post.addComment(newComment);
+            comments.addComment(newComment);
 
             resp.sendRedirect("/feed");
             return;
         }else{
-
+            System.out.println("on ne veut pas commenter");
             User userSession = users.getUserByID(userID);
+            if(action.equals("s'abonner")){
+                System.out.println("on veut s'abonner");
+                String authorID = req.getParameter("authorID");
+                User author = users.getUserByID(authorID);
+                userSession.addAbonnement(author);
+            }
+            
             Post post = posts.getPost(postID);
             User author = users.getUserByID(userID);
 
             if(userSession == null || post == null || author == null){
-                resp.sendRedirect("/index.html");
+                resp.sendRedirect("/feed");
                 return;
             }
 
-            req.setAttribute("user", userSession);
+            /*req.setAttribute("user", userSession);
             req.setAttribute("post",post );
             req.setAttribute("author",author );
             
-            req.getRequestDispatcher("/comments.jsp").forward(req, resp);
+            req.getRequestDispatcher("/comments.jsp").forward(req, resp);*/
         }
        
         

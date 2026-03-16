@@ -12,7 +12,9 @@ Error error = (Error) request.getAttribute("error");
 User user = (User) request.getAttribute("user");
 ArrayList<Post> posts = (ArrayList<Post>) request.getAttribute("posts");
 Map<String, User> authors = (Map<String, User>) request.getAttribute("users");
-//Map<String, ArrayList<Comment>> listOfCommentsByPostID = (Map<String, ArrayList<Comment>>) request.getAttribute("listOfCommentsByPostID");
+Map<String, ArrayList<Comment>> listOfCommentsByPostID = (Map<String, ArrayList<Comment>>) request.getAttribute("listOfCommentsByPostID");
+ArrayList<User> abonnements = user.getAbonnements();
+
 %>
 
 
@@ -27,6 +29,28 @@ Map<String, User> authors = (Map<String, User>) request.getAttribute("users");
 <body>
     <main>
         <h1>Votre réseau Miniature</h1>
+        <form method="post" action="/login">
+            <input type="hidden" name="action" value="deconnexion"/>
+            <input type="submit" value="se déconnecter"/>
+        </form>
+        <%
+            if(abonnements.size() != 0){
+                if(abonnements.size() > 1){%>
+                    <a href="/feed?abonnement=all" title="voir uniquement ceux que je suis">
+                        voir uniquement les post de ceux que je suis
+                    </a>
+                <%}
+
+                for(User author: abonnements){
+                    %>
+                    <a href="/feed?abonnement=<%=author.getId()%>" title="voir les post de <%=author.getFullName()%>">
+                        <span><%=author.getFullName()%></span> voir uniquement ces posts
+                    </a>
+                    
+                <%}
+            }
+            
+        %>
 
         <form id="create_post" method="post">
             <p><%=user.getPseudo()%></p>
@@ -69,13 +93,14 @@ Map<String, User> authors = (Map<String, User>) request.getAttribute("users");
                     </a>
 
                     <%
-                        if(comments.size() == 0){%>
+                        if(listOfCommentsByPostID.size() == 0){%>
                             <p>aucun commentaire</p>
                         <%}else{%>
                             <details>
                                 <summary>voir les commentaires</summary>
                                 <%
-                                for(Comment comment: comments){%>
+                                ArrayList<Comment> listOfComment = listOfCommentsByPostID.get(postID);
+                                for(Comment comment: listOfComment){%>
                                     <comment>
                                         <p><%=comment.getContent()%></p>
                                     </comment>
