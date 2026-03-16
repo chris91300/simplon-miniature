@@ -3,7 +3,9 @@ package fr.miniature.controllers;
 import java.io.IOException;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import fr.miniature.models.Comment;
 import fr.miniature.models.Comments;
@@ -34,7 +36,36 @@ public class FeedController extends HttpServlet {
 
         String userID = (String) session.getAttribute("userID");
         User userSession = users.getUserByID(userID);
-        ArrayList<Post> postsList = posts.getPosts();
+        ArrayList<Post> postsList = new ArrayList<Post>();;
+
+        String abonnement = req.getParameter("abonnement");
+
+        if(abonnement != null){
+            if(abonnement.equals("all")){
+                ArrayList<User> abonnements = userSession.getAbonnements();
+                for(User author: abonnements){
+                    ArrayList<Post> authorPosts = posts.getPostFrom(author.getId());
+                    for(Post post: authorPosts){
+                        Collections.addAll(postsList, post);
+                    }                
+                    
+                }
+                
+            }else{
+                String authorID = abonnement;
+                ArrayList<Post> authorPosts = posts.getPostFrom(authorID);
+                    for(Post post: authorPosts){
+                        Collections.addAll(postsList, post);
+                    }  
+            }
+            
+        }else{
+             postsList = posts.getPosts();
+        }
+
+       
+
+
         Map<String, User> listOfUser = new HashMap<>();
         for (Post post : postsList) {
             String userId = post.getUserID();
@@ -42,9 +73,22 @@ public class FeedController extends HttpServlet {
             listOfUser.put(userId, user);
         }
 
+        
+       Map<String, ArrayList<Comment>> listOfCommentsByPostID = new HashMap<>();
+        for (Post post : postsList) {
+            String postID = post.getID();
+            if(!listOfCommentsByPostID.containsKey(postID)){
+                ArrayList<Comment> commentList = comments.getCommmentsFor(postID);
+                listOfCommentsByPostID.put(postID, commentList);
+            }
+            
+        }
+        System.out.println("la liste size= "+listOfCommentsByPostID.size());
         req.setAttribute("user", userSession);
         req.setAttribute("posts", postsList);
         req.setAttribute("users", listOfUser);
+        req.setAttribute("listOfCommentsByPostID", listOfCommentsByPostID);
+       
 
         req.getRequestDispatcher("/feed.jsp").forward(req, resp);
     }
@@ -92,7 +136,7 @@ public class FeedController extends HttpServlet {
         }
 
         
-      /*  Map<String, ArrayList<Comment>> listOfCommentsByPostID = new HashMap<>();
+       Map<String, ArrayList<Comment>> listOfCommentsByPostID = new HashMap<>();
         for (Post post : newPostsList) {
             String postID = post.getID();
             if(!listOfCommentsByPostID.containsKey(postID)){
@@ -100,9 +144,7 @@ public class FeedController extends HttpServlet {
                 listOfCommentsByPostID.put(postID, commentList);
             }
             
-        }*/
-
-        //System.out.println("la liste est null? "+listOfCommentsByPostID== null);
+        }
 
         Map<String, User> listOfUser = new HashMap<>();
         for (Post post : newPostsList) {
@@ -114,7 +156,7 @@ public class FeedController extends HttpServlet {
         req.setAttribute("user", userSession);
         req.setAttribute("posts", newPostsList);
         req.setAttribute("users", listOfUser);
-        //req.setAttribute("listOfCommentsByPostID", listOfCommentsByPostID);
+        req.setAttribute("listOfCommentsByPostID", listOfCommentsByPostID);
         req.setAttribute("error", error);
         req.getRequestDispatcher("/feed.jsp").forward(req, resp);
 

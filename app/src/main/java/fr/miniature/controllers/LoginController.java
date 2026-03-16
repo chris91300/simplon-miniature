@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet(name="Login", urlPatterns={"/inscription", "/connexion"})
+@WebServlet(name="Login", urlPatterns={"/inscription", "/connexion", "/login"})
 public class LoginController extends HttpServlet {
 
     Users users = Users.getInstance();
@@ -38,8 +38,14 @@ public class LoginController extends HttpServlet {
         String path = req.getServletPath();
         if(path.equals("/inscription")){
             inscription(req, resp);
-        }else{
-            connexion(req, resp);
+        }else if(path.equals("/connexion")){
+             connexion(req, resp);
+        }
+        else{
+           HttpSession session = req.getSession(false);
+           session.removeAttribute("userID");
+           resp.sendRedirect("/index.html");
+           return;
         }
     }
 

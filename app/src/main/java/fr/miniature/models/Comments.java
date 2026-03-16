@@ -28,7 +28,9 @@ public class Comments {
     public ArrayList<Comment> getCommmentsFor(String postID){
         ArrayList<Comment> list = new ArrayList<>();
         for(Comment comment: comments){
-            if(comment.getID().equals(postID)){
+            System.out.println(comment.getContent());
+            System.out.println(comment.getPostID());
+            if(comment.getPostID().equals(postID)){
                 list.add(comment);
             }
         }

@@ -36,6 +36,20 @@ public final class Posts {
         return postList;
     }
 
+    public ArrayList<Post> getPostFrom(String authorID){
+        ArrayList<Post> authorPosts = new ArrayList<Post>();;
+
+        for(Post post: posts){
+            if(post.getUserID().equals(authorID)){
+                authorPosts.add(post);
+            }
+        }
+
+        ArrayList<Post> postsInversed = new ArrayList<>(authorPosts);
+        Collections.reverse(postsInversed);
+        return postsInversed;
+
+    }
 
     public ArrayList<Post> addPost(Post post){
         posts.add(post);

@@ -9,5 +9,8 @@ public class Comment extends Publication{
 
     }
 
+    public String getPostID(){
+        return this.idPost;
+    }
 
 }
