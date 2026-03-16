@@ -61,8 +61,7 @@ public class LoginController extends HttpServlet {
             isValidInput(pseudo) &&
             isValidInput(password)
         ){
-            // créer un user
-            // session
+           
             User user = new User(firstname, lastname, pseudo, password);
             users.addNewUser(user);
             addSession(req, user);

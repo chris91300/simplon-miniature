@@ -29,10 +29,14 @@ ArrayList<User> abonnements = user.getAbonnements();
 <body>
     <main>
         <h1>Votre réseau Miniature</h1>
-        <form method="post" action="/login">
+        <h2>Bonjour <%=user.getPseudo()%></h2>
+        <form method="post" action="/login" id="deconnexion" class="as-button">
             <input type="hidden" name="action" value="deconnexion"/>
             <input type="submit" value="se déconnecter"/>
         </form>
+        <section>
+
+        
         <%
             if(abonnements.size() != 0){
                 if(abonnements.size() > 1){%>
@@ -52,18 +56,21 @@ ArrayList<User> abonnements = user.getAbonnements();
             
         %>
 
-        <form id="create_post" method="post">
-            <p><%=user.getPseudo()%></p>
-            <textarea name="newPost" placeholder="créer un nouveau post ..."></textarea>
-            <input type="hidden" name="action" value="creerpost">
-            <input type="submit" value="envoyer" />
-            <%
-                if(error != null){%>
-                    <p class="error"><%=error.getMessage()%></p>
-                <%}
-            %>
-        </form>
-
+        </section>
+        <section id="create_post">
+            <form id="create_post" method="post">
+                
+                <textarea name="newPost" placeholder="créer un nouveau post ..."></textarea>
+                <input type="hidden" name="action" value="creerpost">
+                <input type="submit" value="envoyer" />
+                <%
+                    if(error != null){%>
+                        <p class="error"><%=error.getMessage()%></p>
+                    <%}
+                %>
+            </form>
+        </section>
+        <section>
         <%
             if(posts.size() == 0){
             %>
@@ -81,11 +88,11 @@ ArrayList<User> abonnements = user.getAbonnements();
                         ArrayList<Comment> comments = post.getComments();
                     %>
                     <p><%=author.getPseudo()%></p>
-                    <p><%=post.getContent()%></p>
-                    <form method="post">
+                    <p class="content"><%=post.getContent()%></p>
+                    <form method="post" class="as-button button-style-none">
                         <input type="hidden" name="action" value="liker">
                         <input type="hidden" name="postID" value="<%=post.getID()%>">
-                        <button type="submit">❤️<sup><%=post.getLike()%></sup></button>
+                        <button type="submit" class="button-style-none">❤️<sup><%=post.getLike()%></sup></button>
 
                     </form>
                     <a href=<%=href%> title="ajouter un commentaire">
@@ -93,7 +100,7 @@ ArrayList<User> abonnements = user.getAbonnements();
                     </a>
 
                     <%
-                        if(listOfCommentsByPostID.size() == 0){%>
+                        if(comments.size() == 0){%>
                             <p>aucun commentaire</p>
                         <%}else{%>
                             <details>
@@ -115,6 +122,9 @@ ArrayList<User> abonnements = user.getAbonnements();
                 }
             }
         %>
+        
+            
+        </section>
     </main>
 </body>
 </html>

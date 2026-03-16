@@ -1,6 +1,7 @@
 
-:roo{
-    --bg-color: lightgray;
+:root{
+    --bg-color: #D5D6EA;/*  pastel light blue   */
+    --second-color: #EBEAD5;
 }
 
 *{
@@ -15,12 +16,142 @@ html{
 
 body{
     background-color: var(--bg-color);
-    height: 100%;
+    min-height: 100%;
     display: flex;
     flex-direction: column;
 }
 
 main{
+    margin: auto;
     flex-grow: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    width: 95%;
+    max-width: 600px;
 }
 
+section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 95%;
+    max-width: 600px;
+    padding: 30px;
+    background-color: white;
+    border-radius: 20px;
+}
+
+h1, h2{
+    text-align: center;
+}
+
+a{
+    text-decoration: none;
+}
+
+
+
+/*  PAGE D'ACCUEIL*/
+
+#accueil{
+    width: 95%;
+    max-width: 600px;
+    padding: 5%;
+    background-color: white;
+    border-radius: 20px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+
+    & h1, h2{
+        width: 100%;
+        text-align: center;
+    }
+
+    & a{
+        margin-top: 20%;
+        background-color: var(--second-color);
+        width: 100px;
+        aspect-ratio: 1;
+        border-radius: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+/*  PAGE D'INSCRIPTION*/
+
+#inscription{
+
+    & form{
+        padding: 30px;
+    }
+}
+
+/*   DECONNEXION   */
+
+
+#deconnexion{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.as-button{
+    
+    width: fit-content;
+    padding: 0;
+
+    & input[type="submit"]{
+        padding: 2px 4px;
+    }
+}
+
+.button-style-none{
+    appearance: none;
+    border: 0;
+    background-color: transparent;
+}
+
+/*   FEED   */
+
+#create_post{
+    height: 200px;
+
+    & textarea{
+        height: 150px;
+    }
+}
+
+article{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100%;
+    background-color: white;
+    padding: 10px;
+
+    & p, details{
+        width: 100%;
+    }
+}
+
+.content{
+    border: 1px solid black;
+    min-height: 100px;
+    padding: 5px;
+
+}
