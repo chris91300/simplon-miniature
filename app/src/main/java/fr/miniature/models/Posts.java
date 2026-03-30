@@ -13,6 +13,8 @@ public final class Posts {
         }
         return instance;
     }
+    
+    // read
     public ArrayList<Post> getPosts() {
         ArrayList<Post> smallPosts = getPosts(10);
         ArrayList<Post> postsInversed = new ArrayList<>(smallPosts);
@@ -20,6 +22,7 @@ public final class Posts {
         return postsInversed;
     }
 
+    // read
     public ArrayList<Post> getPosts(int max){
         ArrayList<Post> postList = new ArrayList<>();
         int compteur = 0;
@@ -36,6 +39,7 @@ public final class Posts {
         return postList;
     }
 
+    // read
     public ArrayList<Post> getPostFrom(String authorID){
         ArrayList<Post> authorPosts = new ArrayList<Post>();;
 
@@ -51,13 +55,8 @@ public final class Posts {
 
     }
 
-    public ArrayList<Post> addPost(Post post){
-        posts.add(post);
-        return getPosts();
-        
-    }
-
-
+   
+    // read
     public Post getPost(String id){
         Post currentPost = null;
         for(Post post: posts){
@@ -69,4 +68,13 @@ public final class Posts {
 
         return currentPost;
     }
+
+
+    // write
+     public ArrayList<Post> addPost(Post post){
+        posts.add(post);
+        return getPosts();
+        
+    }
+
 }

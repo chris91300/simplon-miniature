@@ -19,16 +19,18 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getServletPath();
-        if(path.equals("/inscription")){
+        if(path.equals("/inscription")){// si c'est une demande d'inscription
+            // on envoie la page d'inscription
             req.getRequestDispatcher("/inscription.jsp").forward(req, resp);
-        }else{
+        }else{ 
             HttpSession session = req.getSession();
+            // sinon si la session est active en redirige vers les feeds
             if(session != null && session.getAttribute("userID") != null ){                
                 resp.sendRedirect("/feed");
                 return;
             }
             
-
+            // sinon on retourne la page de connexion
             req.getRequestDispatcher("/connexion.jsp").forward(req, resp);
         }
     }
@@ -36,12 +38,13 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getServletPath();
-        if(path.equals("/inscription")){
+        
+        if(path.equals("/inscription")){// demande d'inscription
             inscription(req, resp);
-        }else if(path.equals("/connexion")){
+        }else if(path.equals("/connexion")){// demande de connexion
              connexion(req, resp);
         }
-        else{
+        else{// si c'est ni inscription ni connexion, alors on supprime la session et on redirige vers la page d'accueil
            HttpSession session = req.getSession(false);
            session.removeAttribute("userID");
            resp.sendRedirect("/index.html");
@@ -50,6 +53,7 @@ public class LoginController extends HttpServlet {
     }
 
     private void inscription(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+       // on récupère les données d'inscription
         String firstname = req.getParameter("firstname");
         String lastname = req.getParameter("lastname");
         String pseudo = req.getParameter("pseudo");
@@ -60,7 +64,7 @@ public class LoginController extends HttpServlet {
             isValidInput(lastname) &&
             isValidInput(pseudo) &&
             isValidInput(password)
-        ){
+        ){// si les données sont valide
            
             User user = new User(firstname, lastname, pseudo, password);
             users.addNewUser(user);
