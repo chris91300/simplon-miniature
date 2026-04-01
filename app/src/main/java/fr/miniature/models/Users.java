@@ -1,6 +1,7 @@
 package fr.miniature.models;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,10 +13,19 @@ public final class Users {
 
 
     public void addNewUser(User user){
-        String id = user.getId();
+        String id = user.getID();
         users.put(id, user);
+       
     }
 
+    public ArrayList<User> find(){
+        ArrayList<User> userList = new ArrayList<>();
+        users.forEach( (String, user) -> {
+            userList.add(user);
+        });
+
+        return userList;
+    }
     public User getUserByID(String id){
         User user = users.get(id);
        // if(user == null){

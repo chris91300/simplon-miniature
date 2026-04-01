@@ -27,9 +27,8 @@ User author = (User) request.getAttribute("author");
             <h2>Post</h2>
             <p><%=post.getContent()%></p>
             <p>poster par <%=author.getFirstname()%></p>
-            <form method="post">
-                <input type="hidden" name="action" value="s'abonner"/>
-                <input type="hidden" name="authorID" value="<%=author.getId()%>"/>
+            <form method="post" action="/follow">
+                <input type="hidden" name="authorID" value="<%=author.getID()%>"/>
                 <input type="submit" value="s'abonner" />
             </form>
         </section>
@@ -40,7 +39,6 @@ User author = (User) request.getAttribute("author");
 
                 </textarea>
                 <input type="hidden" name="postID" value="<%=post.getID()%>"/>
-                <input type="hidden" name="action" value="commenter"/>
                 <input type="submit" value="envoyer" />
             </form>
         </section>

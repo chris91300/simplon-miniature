@@ -1,8 +1,10 @@
-package fr.miniature.models;
+package domain.models.publication;
 
 import java.util.Date;
 
-abstract class Publication {
+import domain.models.entities.EntityInterface;
+
+public abstract class Publication implements EntityInterface {
     private String id; 
     private String userID;
     private String content;

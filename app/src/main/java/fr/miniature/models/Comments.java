@@ -21,7 +21,21 @@ public class Comments {
     System.out.println("commentaire ajouté");
     }
 
-    public ArrayList<Comment> getComments() {
+    public Comment findByID(String ID){
+        Comment currentComment = null;
+
+        for(Comment comment : comments){
+            if(ID.equals(comment.getID())){
+                currentComment = comment;
+            }
+        }
+
+        if(currentComment == null) throw new Error("Commentaire non trouvé.");
+
+        return currentComment;
+    }
+
+    public ArrayList<Comment> find() {
         return comments;
     }
 
@@ -39,6 +53,17 @@ public class Comments {
         return list;
     }
 
+    public Comment getCommentByID(String ID){
+        Comment currentComment = null;
+        for(Comment comment: comments){
+            if(ID.equals(comment.getID())){
+                currentComment = comment;
+            }
+        }
+
+        if(currentComment == null) throw new Error("aucun commentaire avec cette ID");
+        return currentComment;
+    }
     
 }
 

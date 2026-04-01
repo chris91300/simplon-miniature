@@ -1,19 +1,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.lang.Error" %>
+<%@ page import="java.lang.System" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
 <%@ page import="fr.miniature.models.User"%>
 <%@ page import="fr.miniature.models.Post"%>
-<%@ page import="fr.miniature.models.Comment"%>
+<%@ page import="domain.models.postForClient.PostForClient"%>
+<%@ page import="domain.models.commentForClient.CommentClient"%>
 <%@ page import="java.util.Map"%>
 
 <%
 Error error = (Error) request.getAttribute("error");
 
 User user = (User) request.getAttribute("user");
-ArrayList<Post> posts = (ArrayList<Post>) request.getAttribute("posts");
-Map<String, User> authors = (Map<String, User>) request.getAttribute("users");
-Map<String, ArrayList<Comment>> listOfCommentsByPostID = (Map<String, ArrayList<Comment>>) request.getAttribute("listOfCommentsByPostID");
-ArrayList<User> abonnements = user.getAbonnements();
+ArrayList<PostForClient> posts = (ArrayList<PostForClient>) request.getAttribute("posts");
+
+
 
 %>
 
@@ -36,25 +38,36 @@ ArrayList<User> abonnements = user.getAbonnements();
         </form>
         <section>
 
-        
         <%
-            if(abonnements.size() != 0){
-                if(abonnements.size() > 1){%>
-                    <a href="/feed?abonnement=all" title="voir uniquement ceux que je suis">
-                        voir uniquement les post de ceux que je suis
-                    </a>
-                <%}
+            ArrayList<User> abonnements = user.getAbonnements();
+            if(abonnements.size() != 0){%>
+                <form method="post">
+                    <input type="hidden" name="action" value="follow">
+                    <div>
+                        <input id="all" type="radio" name="filter" value="all" />
+                        <label for="all">voir tous les posts</label>
+                    </div>
+                    <div>
+                        <input id="following" type="radio" name="filter" value="following" />
+                        <label for="following">voir uniquement mes abonnements</label>
+                    </div>
+                                   
 
-                for(User author: abonnements){
+                <%for(User author: abonnements){
                     %>
-                    <a href="/feed?abonnement=<%=author.getId()%>" title="voir les post de <%=author.getFullName()%>">
-                        <span><%=author.getFullName()%></span> voir uniquement ces posts
-                    </a>
+                    <div>
+                        <input id="<%=author.getID()%>" type="radio" name="filter" value="<%=author.getID()%>" />
+                        <label for="<%=author.getID()%>"><%=author.getFullName()%></label>
+                    </div>
+                   
                     
-                <%}
-            }
+                <%}%>
+                <input type="submit" value="voir" />
+                </form>
+            <%}
             
         %>
+        
 
         </section>
         <section id="create_post">
@@ -77,22 +90,24 @@ ArrayList<User> abonnements = user.getAbonnements();
             <p>aucun post pour le moment</p>
             <%
             }else{
-                for(Post post: posts){
+                for(PostForClient post: posts){
                  %>
                  <article>
                     <%
-                        String postUserID = post.getUserID();
-                        User author = authors.get(postUserID);
-                        String postID = post.getID();
-                        String href = "/comments?postUserID="+post.getUserID()+"&postID="+postID;
-                        ArrayList<Comment> comments = post.getComments();
+                        
+                        User author = post.author();
+                        String authorID = author.getID();
+                        Post currentPost = post.post();
+                        String postID = currentPost.getID();
+                        String href = "/comments?postID="+postID;
+                        List<CommentClient> comments = post.comments();
                     %>
                     <p><%=author.getPseudo()%></p>
-                    <p class="content"><%=post.getContent()%></p>
+                    <p class="content"><%=currentPost.getContent()%></p>
                     <form method="post" class="as-button button-style-none">
                         <input type="hidden" name="action" value="liker">
-                        <input type="hidden" name="postID" value="<%=post.getID()%>">
-                        <button type="submit" class="button-style-none">❤️<sup><%=post.getLike()%></sup></button>
+                        <input type="hidden" name="postID" value="<%=currentPost.getID()%>">
+                        <button type="submit" class="button-style-none">❤️<sup><%=currentPost.getLike()%></sup></button>
 
                     </form>
                     <a href=<%=href%> title="ajouter un commentaire">
@@ -100,16 +115,17 @@ ArrayList<User> abonnements = user.getAbonnements();
                     </a>
 
                     <%
+                    
                         if(comments.size() == 0){%>
                             <p>aucun commentaire</p>
                         <%}else{%>
                             <details>
                                 <summary>voir les commentaires</summary>
                                 <%
-                                ArrayList<Comment> listOfComment = listOfCommentsByPostID.get(postID);
-                                for(Comment comment: listOfComment){%>
+                                
+                                for(CommentClient comment: comments){%>
                                     <comment>
-                                        <p><%=comment.getContent()%></p>
+                                        <p><%=comment.comment().getContent()%></p>
                                     </comment>
                                 <%}
                                 %>

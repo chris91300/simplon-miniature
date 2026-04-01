@@ -5,7 +5,7 @@ import java.util.Collections;
 
 public final class Posts {
     private static Posts instance;
-    ArrayList<Post> posts = new ArrayList<>();
+    public ArrayList<Post> posts = new ArrayList<>();
 
     public static Posts getInstance(){
         if(instance == null){
@@ -14,8 +14,18 @@ public final class Posts {
         return instance;
     }
     
+    public Post findByID(String ID){
+        Post currentPost = null;
+        for(Post post: posts){
+            if(ID.equals(post.getID())){
+                currentPost = post;
+            }
+        }
+        if(currentPost == null) throw new Error("post non trouvé.");
+        return currentPost;
+    }
     // read
-    public ArrayList<Post> getPosts() {
+    public ArrayList<Post> find() {
         ArrayList<Post> smallPosts = getPosts(10);
         ArrayList<Post> postsInversed = new ArrayList<>(smallPosts);
         Collections.reverse(postsInversed);
@@ -73,7 +83,7 @@ public final class Posts {
     // write
      public ArrayList<Post> addPost(Post post){
         posts.add(post);
-        return getPosts();
+        return find();
         
     }
 

@@ -3,17 +3,16 @@ package fr.miniature.models;
 
 import java.util.ArrayList;
 
+import domain.models.like.LikeInterface;
+import domain.models.publication.Publication;
 
-public class Post extends Publication {
+public class Post extends Publication implements LikeInterface {
   
-    private Boolean isDraft;
-    private int like;
+     ArrayList<String> likeList = new ArrayList<>();
     ArrayList<Comment> comments = new ArrayList<>();
    
     public Post(String userID, String content) {
         super(userID, content);
-        this.like = 0;
-        this.isDraft = false;
     }
 
     public void addComment(Comment comment){
@@ -24,13 +23,18 @@ public class Post extends Publication {
         return comments;
     }
 
-    public void islike(){
-        like++;
+    public void isLike(String userID){
+        if(likeList.contains(userID)){
+            likeList.remove(userID);
+        }else{
+            likeList.add(userID);
+        }
+        
     }
 
 
     public int getLike(){
-        return like;
+        return likeList.size();
     }
 
   

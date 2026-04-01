@@ -4,3 +4,39 @@
 post (par date) id user
     commentaires
         commentaire (par date) id author
+
+
+DATABASE
+entities:
+    user:       id
+                firstname
+                lastname
+                pseudo
+                password            
+                abonnements (liste de id)
+
+    post:       id 
+                userID foreignKey
+                content
+                createdAt
+
+    comment:    id 
+                userID foreignKey
+                postId foreignKey
+                content
+                createdAt
+
+post{
+    id 
+    author: user
+    content
+    createdAt
+    commments: [
+                {
+                    id 
+                    author: user
+                    content
+                    createdAt
+                }
+            ]
+}

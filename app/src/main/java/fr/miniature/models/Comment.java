@@ -1,5 +1,7 @@
 package fr.miniature.models;
 
+import domain.models.publication.Publication;
+
 public class Comment extends Publication{
     private String idPost;
   
